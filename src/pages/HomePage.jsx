@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { fetchTrendingMovies } from '../components/Api';
+import { fetchTrendingMovies } from 'components/Api';
+import { Link } from 'react-router-dom';
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,7 +12,7 @@ export default function HomePage() {
       setIsLoading(true);
       try {
         const { results } = await fetchTrendingMovies();
-        setTrendingMovies(prevState => [...prevState, ...results]);
+        setTrendingMovies(results);
       } catch (error) {
         setError(error);
       } finally {
@@ -31,8 +32,17 @@ export default function HomePage() {
       <ul>
         {trendingMovies.length > 0 &&
           trendingMovies.map((trendingMovie, index) => {
-            const { title } = trendingMovie;
-            return <li key={index}>{title}</li>;
+            const { title, id, poster_path } = trendingMovie;
+            const posterBaseURL = 'https://image.tmdb.org/t/p/w200';
+            const poster = posterBaseURL + poster_path;
+            return (
+              <li key={index}>
+                <Link to={`/movies/${id}`}>
+                  {poster && <img src={poster} alt={title} />}
+                  {title}
+                </Link>
+              </li>
+            );
           })}
       </ul>
     </div>
