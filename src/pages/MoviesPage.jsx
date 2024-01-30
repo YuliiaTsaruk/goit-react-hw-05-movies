@@ -1,6 +1,6 @@
 import { fetchSearchMovies } from 'components/Api';
 import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 export default function MoviesPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -9,6 +9,8 @@ export default function MoviesPage() {
 
   const [params, setParams] = useSearchParams();
   const searchMovie = params.get('movie') ?? '';
+
+  const location = useLocation();
 
   useEffect(() => {
     const getMovies = async () => {
@@ -55,7 +57,7 @@ export default function MoviesPage() {
             const poster = posterBaseURL + poster_path;
             return (
               <li key={id}>
-                <Link to={`/movies/${id}`}>
+                <Link to={`/movies/${id}`} state={{ from: location }}>
                   {poster && <img src={poster} alt={title} />}
                   <h3>{title}</h3>
                 </Link>

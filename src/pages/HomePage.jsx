@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { fetchTrendingMovies } from 'components/Api';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [trendingMovies, setTrendingMovies] = useState([]);
+
+  const location = useLocation();
 
   useEffect(() => {
     const getTrendingMovies = async () => {
@@ -37,7 +39,7 @@ export default function HomePage() {
             const poster = posterBaseURL + poster_path;
             return (
               <li key={index}>
-                <Link to={`/movies/${id}`}>
+                <Link to={`/movies/${id}`} state={{ from: location }}>
                   {poster && <img src={poster} alt={title} />}
                   {title}
                 </Link>
