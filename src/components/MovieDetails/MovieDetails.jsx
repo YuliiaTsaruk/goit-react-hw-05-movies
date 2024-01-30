@@ -28,7 +28,7 @@ export default function MovieDetails() {
   const getPostersUrl = () => {
     const posterBaseURL = 'https://image.tmdb.org/t/p/w200';
     const poster = posterBaseURL + movie.poster_path;
-    return posterBaseURL + poster;
+    return poster;
   };
 
   return (
