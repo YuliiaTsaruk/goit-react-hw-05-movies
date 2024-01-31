@@ -1,6 +1,6 @@
-import { fetchMoviesCast } from 'components/Api';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { fetchMoviesCast } from 'components/Api';
 
 export const MovieCast = () => {
   const [isLoading, setIsLoading] = useState(false);

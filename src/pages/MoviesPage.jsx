@@ -1,6 +1,6 @@
-import { fetchSearchMovies } from 'components/Api';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { fetchSearchMovies } from 'components/Api';
 
 export default function MoviesPage() {
   const [isLoading, setIsLoading] = useState(false);

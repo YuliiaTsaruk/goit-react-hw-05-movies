@@ -1,6 +1,6 @@
-import { fetchMoviesDetails } from 'components/Api';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { fetchMoviesDetails } from 'components/Api';
 
 export default function MovieDetails() {
   const [isLoading, setIsLoading] = useState(false);

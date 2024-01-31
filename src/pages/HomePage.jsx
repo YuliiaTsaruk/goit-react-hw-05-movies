@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { fetchTrendingMovies } from 'components/Api';
 import { Link, useLocation } from 'react-router-dom';
+
+import { fetchTrendingMovies } from 'components/Api';
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
