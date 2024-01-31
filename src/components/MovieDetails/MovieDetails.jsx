@@ -51,7 +51,12 @@ export default function MovieDetails() {
       {error && <Error>Oops, something went wrong...</Error>}
       {movie && (
         <StyledContainer>
-          {<StyledImg src={getPostersUrl()} alt={movie.title} /> && (
+          {movie.poster_path ? (
+            <StyledImg
+              src={getPostersUrl(movie.poster_path)}
+              alt={movie.title}
+            />
+          ) : (
             <StyledImg
               src="https://via.placeholder.com/200"
               alt="placeholder"
