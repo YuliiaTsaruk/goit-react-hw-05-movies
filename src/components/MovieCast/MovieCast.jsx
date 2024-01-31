@@ -11,6 +11,7 @@ export const MovieCast = () => {
 
   useEffect(() => {
     const getMovieCast = async () => {
+      setIsLoading(true);
       try {
         const { cast } = await fetchMoviesCast(movieId);
         setMovieCast([...cast]);

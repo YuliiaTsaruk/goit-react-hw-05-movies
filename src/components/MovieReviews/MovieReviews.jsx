@@ -11,6 +11,7 @@ export const MovieReviews = () => {
 
   useEffect(() => {
     const getMovieReviews = async () => {
+      setIsLoading(true);
       try {
         const { results } = await fetchMoviesReviews(movieId);
         setMovieReviews([...results]);
@@ -30,7 +31,7 @@ export const MovieReviews = () => {
       {movieReviews.length > 0 && (
         <>
           {movieReviews.map(review => (
-            <li key={review.author}>
+            <li key={review.id}>
               <h4>{review.author}</h4>
               <p>{review.content}</p>
             </li>
