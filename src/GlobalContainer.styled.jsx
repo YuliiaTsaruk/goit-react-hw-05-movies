@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  max-width: 100vw;
+  min-width: 100vw;
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 16px;
-  padding: 20px;
+  justify-content: start;
   margin: 0 auto;
+  padding: 8px;
 `;
 
 export const Messege = styled.p`
