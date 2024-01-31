@@ -1,7 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { fetchTrendingMovies } from 'components/Api';
+import { Container, Error } from 'GlobalContainer.styled';
+import { Loader } from 'components/Loader/Loader';
+import {
+  StyledFilmTitle,
+  StyledItem,
+  StyledLink,
+  StyledList,
+  StyledTitle,
+} from './HomePage.styled';
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,28 +35,30 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div>
-      <h2>Trending today</h2>
-      {isLoading && <p>Loading...</p>}
+    <Container>
+      <StyledTitle>Trending today</StyledTitle>
+      {isLoading && <Loader />}
       {error && (
-        <p>Oops, something went wrong... Please, try reloading this page!</p>
+        <Error>
+          Oops, something went wrong... Please, try reloading this page!
+        </Error>
       )}
-      <ul>
+      <StyledList>
         {trendingMovies.length > 0 &&
           trendingMovies.map((trendingMovie, index) => {
             const { title, id, poster_path } = trendingMovie;
             const posterBaseURL = 'https://image.tmdb.org/t/p/w200';
             const poster = posterBaseURL + poster_path;
             return (
-              <li key={index}>
-                <Link to={`/movies/${id}`} state={{ from: location }}>
+              <StyledItem key={index}>
+                <StyledLink to={`/movies/${id}`} state={{ from: location }}>
                   {poster && <img src={poster} alt={title} />}
-                  {title}
-                </Link>
-              </li>
+                  <StyledFilmTitle>{title}</StyledFilmTitle>
+                </StyledLink>
+              </StyledItem>
             );
           })}
-      </ul>
-    </div>
+      </StyledList>
+    </Container>
   );
 }

@@ -1,6 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { fetchSearchMovies } from 'components/Api';
+import { Loader } from 'components/Loader/Loader';
+import { Container, Error, Messege } from 'GlobalContainer.styled';
+import {
+  StyledFilmTitle,
+  StyledForm,
+  StyledItem,
+  StyledLink,
+  StyledList,
+} from './MoviesPage.styled';
 
 export default function MoviesPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,8 +44,8 @@ export default function MoviesPage() {
   };
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
+    <Container>
+      <StyledForm onSubmit={onSubmit}>
         <input
           name="movie"
           type="text"
@@ -45,29 +54,41 @@ export default function MoviesPage() {
           placeholder="Search movies"
         />
         <button type="submit">Search</button>
-      </form>
+      </StyledForm>
 
-      <ul>
-        {isLoading && <p>Loading...</p>}
-        {error && <p>Oops, something went wrong...</p>}
+      <StyledList>
+        {isLoading && <Loader />}
+        {error && <Error>Oops, something went wrong...</Error>}
+
         {movies.length > 0 &&
           movies.map(movie => {
             const { title, id, poster_path } = movie;
             const posterBaseURL = 'https://image.tmdb.org/t/p/w200';
             const poster = posterBaseURL + poster_path;
             return (
-              <li key={id}>
-                <Link to={`/movies/${id}`} state={{ from: location }}>
-                  {poster && <img src={poster} alt={title} />}
-                  <h3>{title}</h3>
-                </Link>
-              </li>
+              <StyledItem key={id}>
+                <StyledLink to={`/movies/${id}`} state={{ from: location }}>
+                  {poster_path ? (
+                    <img src={poster} alt={title} />
+                  ) : (
+                    <img
+                      src="https://via.placeholder.com/200"
+                      alt="placeholder"
+                      width={200}
+                    />
+                  )}
+
+                  <StyledFilmTitle>{title}</StyledFilmTitle>
+                </StyledLink>
+              </StyledItem>
             );
           })}
         {movies.length === 0 && searchMovie && !isLoading && (
-          <p>Sorry, we don't find this {searchMovie} in our library</p>
+          <Messege>
+            Sorry, we don't find this {searchMovie} in our library
+          </Messege>
         )}
-      </ul>
-    </div>
+      </StyledList>
+    </Container>
   );
 }

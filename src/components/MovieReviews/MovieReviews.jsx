@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMoviesReviews } from 'components/Api';
+import { Loader } from 'components/Loader/Loader';
+import { StyledItem, StyledList } from './MovieReviews.styled';
 
 export const MovieReviews = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,18 +28,21 @@ export const MovieReviews = () => {
 
   return (
     <div>
-      {isLoading && <p>Loading...</p>}
+      {isLoading && <Loader />}
       {error && <p>Oops, something went wrong...</p>}
-      {movieReviews.length > 0 && (
-        <>
-          {movieReviews.map(review => (
-            <li key={review.id}>
-              <h4>{review.author}</h4>
-              <p>{review.content}</p>
-            </li>
-          ))}
-        </>
-      )}
+      <StyledList>
+        {' '}
+        {movieReviews.length > 0 && (
+          <>
+            {movieReviews.map(review => (
+              <StyledItem key={review.id}>
+                <h4>{review.author}</h4>
+                <p>{review.content}</p>
+              </StyledItem>
+            ))}
+          </>
+        )}
+      </StyledList>
       {movieReviews.length === 0 && !isLoading && (
         <p>We don't have any reviews for this movie</p>
       )}

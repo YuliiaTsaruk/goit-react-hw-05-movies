@@ -1,6 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMoviesDetails } from 'components/Api';
+import { Loader } from 'components/Loader/Loader';
+import { Container, Error } from 'GlobalContainer.styled';
+import {
+  StyledContainer,
+  StyledFilmTitle,
+  StyledImg,
+  StyledInfoWrapper,
+  StyledText,
+  StyledTitleText,
+} from './MovieDetails.styled';
 
 export default function MovieDetails() {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,28 +41,41 @@ export default function MovieDetails() {
     return poster;
   };
 
+  const convertToPercentage = score => {
+    return (score * 10).toFixed(2) + '%';
+  };
+
   return (
-    <div>
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Oops, something went wrong...</p>}
+    <Container>
+      {isLoading && <Loader />}
+      {error && <Error>Oops, something went wrong...</Error>}
       {movie && (
-        <div>
-          <img src={getPostersUrl()} alt={movie.title} />
-          <div>
-            <h2>{movie.title}</h2>
-            <p>User Score: {movie.vote_average}</p>
-            <p>
-              <span>Overview</span> {movie.overview}
-            </p>
-            <p>
-              <span>Genres</span>{' '}
-              {movie.genres.map(genre => (
-                <span key={genre.id}>{genre.name} </span>
-              ))}
-            </p>
-          </div>
-        </div>
+        <StyledContainer>
+          {<StyledImg src={getPostersUrl()} alt={movie.title} /> && (
+            <StyledImg
+              src="https://via.placeholder.com/200"
+              alt="placeholder"
+            />
+          )}
+          <StyledInfoWrapper>
+            <StyledFilmTitle>{movie.title}</StyledFilmTitle>
+            <StyledText>
+              User Score: {convertToPercentage(movie.vote_average)}
+            </StyledText>
+            <StyledText>
+              <StyledTitleText>Overview</StyledTitleText> {movie.overview}
+            </StyledText>
+            <StyledText>
+              <StyledTitleText>Genres</StyledTitleText>
+              <span>
+                {movie.genres.map(genre => (
+                  <span key={genre.id}> {genre.name} </span>
+                ))}
+              </span>
+            </StyledText>
+          </StyledInfoWrapper>
+        </StyledContainer>
       )}
-    </div>
+    </Container>
   );
 }

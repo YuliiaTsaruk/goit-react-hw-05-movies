@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMoviesCast } from 'components/Api';
+import { Loader } from 'components/Loader/Loader';
+import { StyledItem, StyledList } from './MovieCast.styled';
 
 export const MovieCast = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,21 +38,21 @@ export const MovieCast = () => {
 
   return (
     <div>
-      {isLoading && <p>Loading...</p>}
+      {isLoading && <Loader />}
       {error && <p>Oops, something went wrong...</p>}
       {movieCast.length > 0 && (
-        <ul>
+        <StyledList>
           {movieCast.map(actor => (
-            <li key={`${actor.character}-${actor.id}`}>
+            <StyledItem key={`${actor.character}-${actor.id}`}>
               <img
                 src={getProfilePoster(actor.profile_path)}
                 alt={actor.name}
               />
               <h4>{actor.name}</h4>
               <p>Character: {actor.character}</p>
-            </li>
+            </StyledItem>
           ))}
-        </ul>
+        </StyledList>
       )}
     </div>
   );
